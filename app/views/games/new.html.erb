@@ -1,0 +1,14 @@
+<h1>New Game</h1>
+<div class='board'>
+  <%@letters.each do |letter| %>
+    <div class ="btn btn-primary letters"><h1><%= letter %></h1></div>
+  <% end %>
+</div>
+
+<div method='post' data-turbo="false">
+  <form action="/score" class = "answer">
+    <input type="text" name="response">
+    <input type="submit" value="Answer!">
+    <%= hidden_field_tag :letters, @letters %>
+  </form>
+</div>
