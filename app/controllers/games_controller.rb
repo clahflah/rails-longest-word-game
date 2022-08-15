@@ -9,6 +9,7 @@ class GamesController < ApplicationController
 
   def score
     @response = params['response']
+    @points = @response.length
     check = params['letters'].split()
     original = params['letters'].split()
     split_response = @response.split("")
@@ -21,7 +22,7 @@ class GamesController < ApplicationController
     new_array.each do |letter|
       if check.include?(letter)
         valid << 'yes'
-        check.delete(letter)
+        check.delete_at(check.index(letter))
       end
     end
     filepath = "https://wagon-dictionary.herokuapp.com/#{@response}"
@@ -30,9 +31,9 @@ class GamesController < ApplicationController
     if @score_check['found'] == false
       @comment = "Sorry #{@response} is not a valid english word."
     elsif @score_check['found'] == true && valid != [] && valid.length == new_array.length
-      @comment = "Congratulations! #{@response} is a valid English word."
+      @comment = "Congratulations! #{@response} is a valid English word. Your final score is #{@points} points!"
     elsif @score_check['found'] == true
-      @comment = "Sorry, #{@response} cannot be built out of #{original.join('')}"
+      @comment = "Sorry, #{@response} cannot be built out of #{original.join('')} #{check} #{new_array} #{split_response} #{valid}"
     end
   end
 end
